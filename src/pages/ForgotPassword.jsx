@@ -1,38 +1,27 @@
-
-
-
+import { sendPasswordResetEmail, getAuth } from "firebase/auth";
 import { useState } from "react";
-
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import OAuth from "../components/OAuth";
-//import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
-//import { toast } from "react-toastify";
+
 
 export default function ForgotPassword() {
-  
   const [email, setEmail] = useState("");
  
   function onChange(e) {
-    setEmail(e.target.value)
-       
+    setEmail(e.target.value)       
   };
   
- {/* async function onSubmit(e) {
+async function onSubmit(e) {
     e.preventDefault();
     try {
       const auth = getAuth();
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      if (userCredential.user) {
-        navigate("/");
-      }
+      await sendPasswordResetEmail(auth, email);
+      toast.success("Email was sent")  
     } catch (error) {
-      toast.error("Bad user credentials");
-    }*/}
-  
+      toast.error("Could not send reset password");
+    }
+}
   return (
     <section>
       <h1 className="text-3xl text-center mt-6 font-bold">Forgot Password</h1>
@@ -45,7 +34,7 @@ export default function ForgotPassword() {
           />
         </div>
         <div className="w-full md:w-[67%] lg:w-[40%] lg:ml-20">
-          <form >
+          <form onSubmit={onSubmit}>
           
             <input
               type="email"
@@ -63,7 +52,7 @@ export default function ForgotPassword() {
                   to="/Register"
                   className="text-red-600 hover:text-red-800 transition duration-200 ease-in-out ml-1"
                 >
-                  Sign In 
+                 Register
                 </Link>
               </p>
               <p>
