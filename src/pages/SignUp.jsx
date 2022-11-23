@@ -1,5 +1,3 @@
-
-
 import { useState } from "react";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { Link } from "react-router-dom";
@@ -7,7 +5,7 @@ import OAuth from "../components/OAuth";
 import {
   getAuth,
   createUserWithEmailAndPassword,
-  updateProfile, 
+  updateProfile,
 } from "firebase/auth";
 import { db } from "../firebase";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
@@ -23,14 +21,13 @@ export default function SignUp() {
   });
   const { name, email, password } = formData;
   const navigate = useNavigate();
-
   function onChange(e) {
     setFormData((prevState) => ({
       ...prevState,
       [e.target.id]: e.target.value,
     }));
   }
- async function onSubmit(e) {
+  async function onSubmit(e) {
     e.preventDefault();
 
     try {
@@ -40,6 +37,7 @@ export default function SignUp() {
         email,
         password
       );
+
       updateProfile(auth.currentUser, {
         displayName: name,
       });
@@ -49,8 +47,8 @@ export default function SignUp() {
       formDataCopy.timestamp = serverTimestamp();
 
       await setDoc(doc(db, "users", user.uid), formDataCopy);
-       toast.success("Sign up was successful");
-       navigate("/");
+      // toast.success("Sign up was successful");
+      // navigate("/");
     } catch (error) {
       toast.error("Something went wrong with the registration");
     }
@@ -68,7 +66,7 @@ export default function SignUp() {
         </div>
         <div className="w-full md:w-[67%] lg:w-[40%] lg:ml-20">
           <form onSubmit={onSubmit}>
-          <input
+            <input
               type="text"
               id="name"
               value={name}
@@ -104,15 +102,15 @@ export default function SignUp() {
                   onClick={() => setShowPassword((prevState) => !prevState)}
                 />
               )}
-           </div>
-          <div className="flex justify-between whitespace-nowrap text-sm sm:text-lg">
+            </div>
+            <div className="flex justify-between whitespace-nowrap text-sm sm:text-lg">
               <p className="mb-6">
                 Have a account?
                 <Link
                   to="/sign-in"
-                  className="text-red-600 hover:text-red-800 transition duration-200 ease-in-out ml-1"
+                  className="text-red-600 hover:text-red-700 transition duration-200 ease-in-out ml-1"
                 >
-                  Sign In 
+                  Sign in
                 </Link>
               </p>
               <p>
@@ -124,13 +122,13 @@ export default function SignUp() {
                 </Link>
               </p>
             </div>
-             <button
+            <button
               className="w-full bg-blue-600 text-white px-7 py-3 text-sm font-medium uppercase rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800"
               type="submit"
             >
-              Sign Up
+              Sign up
             </button>
-           <div className="flex items-center  my-4 before:border-t before:flex-1 before:border-gray-300 after:border-t after:flex-1 after:border-gray-300">
+            <div className="flex items-center  my-4 before:border-t before:flex-1 before:border-gray-300 after:border-t after:flex-1 after:border-gray-300">
               <p className="text-center font-semibold mx-4">OR</p>
             </div>
             <OAuth />
